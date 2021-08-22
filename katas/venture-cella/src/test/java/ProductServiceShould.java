@@ -1,6 +1,8 @@
+import com.vc.model.Product;
 import com.vc.model.dto.ProductDto;
 import com.vc.repository.ProductRepository;
 import com.vc.service.impl.ProductServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,11 +10,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import java.util.Collections;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class ProductServiceShould {
 
     @Mock
@@ -23,6 +29,7 @@ public class ProductServiceShould {
     ProductServiceImpl productService;
 
     ProductDto productDto;
+    Product product;
 
     String PRODUCT_NAME = "Strawberries";
 
@@ -38,6 +45,28 @@ public class ProductServiceShould {
         when_product_saved();
 
         then_save_should_be_called_once();
+    }
+
+    @Test
+    void search_by_name() {
+        given_product();
+
+        when_product_searched_by_its_name();
+
+        then_returns_product();
+
+    }
+
+    private void then_returns_product() {
+        Assertions.assertEquals(product.getName(), PRODUCT_NAME);
+    }
+
+    private void given_product() {
+        product = new Product(1L, PRODUCT_NAME, "Fruit", 3.99, 1.0, "Brazil");
+    }
+
+    private void when_product_searched_by_its_name() {
+        when(productRepository.getByName(PRODUCT_NAME)).thenReturn(Collections.singletonList(product));
     }
 
     private void then_save_should_be_called_once() {
