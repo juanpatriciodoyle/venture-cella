@@ -7,6 +7,8 @@ import com.vc.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -18,4 +20,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(Product.fromDto(productDto));
     }
 
+    @Override
+    public List<Product> getByName(String name) {
+        return productRepository.getByName(name);
+    }
 }
