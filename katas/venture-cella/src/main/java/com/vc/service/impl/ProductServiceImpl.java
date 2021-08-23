@@ -41,11 +41,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll(int page, int size) {
-        Page<Product> productPage = productRepository.findAll(
-                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
-        if (productPage == null) return new ArrayList<>();
-        return productPage.getContent();
+    public List<Product> getAll(Integer page, Integer size) {
+        if (size != null && page != null){
+            Page<Product> productPage = productRepository.findAll(
+                    PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
+            if (productPage == null) return new ArrayList<>();
+            return productPage.getContent();
+        }else {
+            return productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        }
     }
 
     @Override

@@ -20,7 +20,7 @@ public interface VentureCellaApi {
     ResponseEntity<String> delete(@RequestParam Long id);
 
     @GetMapping("/products")
-    ResponseEntity<List<Product>> getAll(@RequestParam int page, @RequestParam int size);
+    ResponseEntity<List<Product>> getAll(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size);
 
     @GetMapping("/products/name")
     ResponseEntity<List<Product>> getByName(@RequestParam String name);

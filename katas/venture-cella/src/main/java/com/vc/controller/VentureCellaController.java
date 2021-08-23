@@ -49,7 +49,7 @@ public class VentureCellaController implements VentureCellaApi {
     }
 
     @Override
-    public ResponseEntity<List<Product>> getAll(int page, int size) {
+    public ResponseEntity<List<Product>> getAll(Integer page, Integer size) {
         return ResponseEntity.ok(productService.getAll(page, size));
     }
 
