@@ -5,10 +5,7 @@ import com.vc.model.dto.ProductDto;
 import javax.persistence.*;
 
 @Entity
-@Table(indexes = {
-        @Index(columnList = "name"),
-        @Index(name = "country", columnList = "country")
-})
+@Table(indexes = @Index(columnList = "name"))
 public class Product {
 
     @Id
@@ -43,7 +40,6 @@ public class Product {
 
     public static Product fromDto(ProductDto productDto) {
         return new Product(
-                productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
@@ -58,26 +54,6 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setWeight(Double weight) {
-        this.weight = weight;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public String getName() {

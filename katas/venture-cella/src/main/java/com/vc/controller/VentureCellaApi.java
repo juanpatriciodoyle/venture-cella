@@ -13,12 +13,15 @@ public interface VentureCellaApi {
     @PostMapping("/products")
     void save(@RequestBody ProductDto productDto);
 
-    @GetMapping("/products/name")
-    ResponseEntity<List<Product>> getByName(@RequestParam String name);
+    @PutMapping("/products")
+    ResponseEntity<String> update(@RequestBody ProductDto productDto, @RequestParam Long id);
 
     @DeleteMapping("/products")
     ResponseEntity<String> delete(@RequestParam Long id);
 
     @GetMapping("/products")
     ResponseEntity<List<Product>> getAll();
+
+    @GetMapping("/products/name")
+    ResponseEntity<List<Product>> getByName(@RequestParam String name);
 }

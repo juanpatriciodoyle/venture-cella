@@ -40,4 +40,15 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAll() {
         return productRepository.findAll();
     }
+
+    @Override
+    public void update(ProductDto productDto, Long id) {
+        if (productRepository.existsById(id)) {
+            Product product = Product.fromDto(productDto);
+            product.setId(id);
+            productRepository.save(product);
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
 }

@@ -5,7 +5,6 @@ import com.vc.model.dto.ProductDto;
 import com.vc.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,6 +19,16 @@ public class VentureCellaController implements VentureCellaApi {
     @Override
     public void save(ProductDto productDto) {
         productService.save(productDto);
+    }
+
+    @Override
+    public ResponseEntity<String> update(ProductDto productDto, Long id) {
+        try {
+            productService.update(productDto, id);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.accepted().build();
     }
 
     @Override
