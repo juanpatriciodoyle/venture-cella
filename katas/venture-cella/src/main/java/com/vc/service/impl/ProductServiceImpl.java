@@ -42,12 +42,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAll(Integer page, Integer size) {
-        if (size != null && page != null){
+        if (size != null && size != 0 && page != null) {
             Page<Product> productPage = productRepository.findAll(
                     PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
-            if (productPage == null) return new ArrayList<>();
             return productPage.getContent();
-        }else {
+        } else {
             return productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
         }
     }

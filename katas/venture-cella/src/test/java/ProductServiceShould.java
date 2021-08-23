@@ -50,7 +50,7 @@ public class ProductServiceShould {
 
         when_product_saved();
 
-        then_save_should_be_called_once();
+        then_save_should_have_been_called_once();
     }
 
     @Test
@@ -59,7 +59,7 @@ public class ProductServiceShould {
 
         when_delete_is_called();
 
-        then_delete_should_be_called_once();
+        then_delete_should_have_been_called_once();
 
     }
 
@@ -79,7 +79,7 @@ public class ProductServiceShould {
 
         when_getting_all_products();
 
-        then_returns_all_products();
+        then_get_all_should_have_been_called_once();
     }
 
     private void given_productDto() {
@@ -92,7 +92,7 @@ public class ProductServiceShould {
 
     private void given_product_list() {
         int i = 3;
-        while(i > 0){
+        while (i > 0) {
             product = new Product(1L, PRODUCT_NAME, "Fruit " + i, 3.99, 1.0, "Brazil");
             productList.add(product);
             i--;
@@ -109,18 +109,18 @@ public class ProductServiceShould {
     }
 
     private void when_getting_all_products() {
-        productService.getAll(0,2);
+        productService.getAll(0, 0);
     }
 
     private void when_delete_is_called() {
-        try{
+        try {
             productService.delete(product.getId());
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             e.getSuppressed();
         }
     }
 
-    private void then_save_should_be_called_once() {
+    private void then_save_should_have_been_called_once() {
         verify(productService, times(1)).save(productDto);
     }
 
@@ -128,11 +128,11 @@ public class ProductServiceShould {
         Assertions.assertEquals(product.getName(), PRODUCT_NAME);
     }
 
-    private void then_returns_all_products() {
-        verify(productService, times(1)).getAll(0,2);
+    private void then_get_all_should_have_been_called_once() {
+        verify(productService, times(1)).getAll(0, 0);
     }
 
-    private void then_delete_should_be_called_once() {
+    private void then_delete_should_have_been_called_once() {
         verify(productService, times(1)).delete(product.getId());
     }
 }
