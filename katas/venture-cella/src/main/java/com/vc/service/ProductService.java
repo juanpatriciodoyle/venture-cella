@@ -14,7 +14,7 @@ public interface ProductService {
 
     void delete(Long id);
 
-    List<Product> getAll();
+    List<Product> getAll(int page, int size);
 
     void update(ProductDto productDto, Long id);
 }

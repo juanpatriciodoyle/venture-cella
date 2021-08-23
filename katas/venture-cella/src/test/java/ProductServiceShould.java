@@ -15,7 +15,6 @@ import org.mockito.quality.Strictness;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,12 +54,12 @@ public class ProductServiceShould {
     }
 
     @Test
-    void get_all_products() {
-        given_product_list();
+    void delete_product() {
+        given_product();
 
-        when_getting_all_products();
+        when_delete_is_called();
 
-        then_returns_all_products();
+        then_delete_should_be_called_once();
 
     }
 
@@ -75,13 +74,12 @@ public class ProductServiceShould {
     }
 
     @Test
-    void delete_product() {
-        given_product();
+    void get_all_products() {
+        given_product_list();
 
-        when_delete_is_called();
+        when_getting_all_products();
 
-        then_delete_should_be_called_once();
-
+        then_returns_all_products();
     }
 
     private void given_productDto() {
@@ -111,7 +109,7 @@ public class ProductServiceShould {
     }
 
     private void when_getting_all_products() {
-        when(productRepository.findAll()).thenReturn(productList);
+        productService.getAll(0,2);
     }
 
     private void when_delete_is_called() {
@@ -131,7 +129,7 @@ public class ProductServiceShould {
     }
 
     private void then_returns_all_products() {
-        Assertions.assertEquals(productList.size(), 3);
+        verify(productService, times(1)).getAll(0,2);
     }
 
     private void then_delete_should_be_called_once() {

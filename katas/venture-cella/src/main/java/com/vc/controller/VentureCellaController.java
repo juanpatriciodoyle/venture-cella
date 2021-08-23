@@ -49,8 +49,8 @@ public class VentureCellaController implements VentureCellaApi {
     }
 
     @Override
-    public ResponseEntity<List<Product>> getAll() {
-        return ResponseEntity.ok(productService.getAll());
+    public ResponseEntity<List<Product>> getAll(int page, int size) {
+        return ResponseEntity.ok(productService.getAll(page, size));
     }
 
 }

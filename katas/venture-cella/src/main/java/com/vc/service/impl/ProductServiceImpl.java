@@ -5,10 +5,14 @@ import com.vc.model.dto.ProductDto;
 import com.vc.repository.ProductRepository;
 import com.vc.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MissingRequestValueException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,8 +41,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public List<Product> getAll(int page, int size) {
+        Page<Product> productPage = productRepository.findAll(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
+        if (productPage == null) return new ArrayList<>();
+        return productPage.getContent();
     }
 
     @Override
