@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ProductServiceShould" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-08-22T21:39:29" hostname="JPDOYLE-NB" time="1.354">
-  <properties/>
-  <testcase name="create_new_product()" classname="ProductServiceShould" time="1.354"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
