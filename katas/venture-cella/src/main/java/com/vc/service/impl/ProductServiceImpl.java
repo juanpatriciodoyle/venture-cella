@@ -1,6 +1,7 @@
 package com.vc.service.impl;
 
 import com.vc.model.Product;
+import com.vc.model.dto.PaginationResponse;
 import com.vc.model.dto.ProductDto;
 import com.vc.repository.ProductRepository;
 import com.vc.service.ProductService;
@@ -9,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MissingRequestValueException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -27,12 +27,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getByName(String name) {
-        return productRepository.getByName(name);
+    public List<ProductDto> getByName(String name) {
+        List<ProductDto> productDtos = new ArrayList<>();
+        productRepository.getByName(name).forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+
+        return productDtos;
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws EntityNotFoundException {
         if (productRepository.existsById(id)) {
             productRepository.deleteById(id);
         } else {
@@ -41,18 +44,30 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAll(Integer page, Integer size) {
-        if (size != null && size != 0 && page != null) {
-            Page<Product> productPage = productRepository.findAll(
-                    PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
-            return productPage.getContent();
-        } else {
-            return productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
-        }
+    public PaginationResponse getAll(Integer page, Integer size) throws EntityNotFoundException {
+        Page<Product> productPage = productRepository.findAll(
+                PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "name")));
+
+        if (productPage.getContent().isEmpty()) throw new EntityNotFoundException();
+
+        List<ProductDto> productDtos = new ArrayList<>();
+        productPage.getContent().forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+
+        return new PaginationResponse(page, productPage.getTotalPages(), productDtos);
+
+    }
+
+
+    @Override
+    public List<ProductDto> getAll() {
+        List<ProductDto> productDtos = new ArrayList<>();
+        productRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+
+        return productDtos;
     }
 
     @Override
-    public void update(ProductDto productDto, Long id) {
+    public void update(ProductDto productDto, Long id) throws EntityNotFoundException {
         if (productRepository.existsById(id)) {
             Product product = Product.fromDto(productDto);
             product.setId(id);

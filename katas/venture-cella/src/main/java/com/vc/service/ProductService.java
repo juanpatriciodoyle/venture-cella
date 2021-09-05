@@ -1,6 +1,6 @@
 package com.vc.service;
 
-import com.vc.model.Product;
+import com.vc.model.dto.PaginationResponse;
 import com.vc.model.dto.ProductDto;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,13 @@ import java.util.List;
 public interface ProductService {
     void save(ProductDto productDto);
 
-    List<Product> getByName(String name);
+    List<ProductDto> getByName(String name);
 
     void delete(Long id);
 
-    List<Product> getAll(Integer page, Integer size);
+    PaginationResponse getAll(Integer page, Integer size);
+
+    List<ProductDto> getAll();
 
     void update(ProductDto productDto, Long id);
 }

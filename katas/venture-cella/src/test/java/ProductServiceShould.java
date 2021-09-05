@@ -24,6 +24,17 @@ import static org.mockito.Mockito.*;
 @MockitoSettings(strictness = Strictness.LENIENT)
 public class ProductServiceShould {
 
+    public static final int PAGE = 0;
+    public static final int SIZE = 2;
+    public static final String DESCRIPTION = "Fruit";
+    public static final double PRICE = 3.99;
+    public static final double WEIGHT = 1.0;
+    public static final String COUNTRY = "Brazil";
+    public static final String PRODUCT_NAME = "Strawberries";
+
+    private static ProductDto productDto;
+    private static Product product;
+
     @Mock
     ProductRepository productRepository;
 
@@ -31,17 +42,10 @@ public class ProductServiceShould {
     @InjectMocks
     ProductServiceImpl productService;
 
-    ProductDto productDto;
-    Product product;
-    List<Product> productList;
-
-    String PRODUCT_NAME = "Strawberries";
-
     @BeforeEach
     void clean_attrs() {
         productDto = null;
         product = null;
-        productList = new ArrayList<>();
     }
 
     @Test
@@ -75,29 +79,36 @@ public class ProductServiceShould {
 
     @Test
     void get_all_products() {
-        given_product_list();
-
         when_getting_all_products();
 
         then_get_all_should_have_been_called_once();
     }
 
+    @Test
+    void get_products_by_page() {
+        when_getting_all_products_by_page();
+
+        then_get_all_by_page_should_have_been_called_once();
+    }
+
+    private void then_get_all_by_page_should_have_been_called_once() {
+        verify(productService, times(1)).getAll(PAGE, SIZE);
+    }
+
+    private void when_getting_all_products_by_page() {
+        try {
+            productService.getAll(PAGE, SIZE);
+        } catch (NullPointerException e) {
+            e.getSuppressed();
+        }
+    }
+
     private void given_productDto() {
-        productDto = new ProductDto(PRODUCT_NAME, "Fruit", 3.99, 1.0, "Brazil");
+        productDto = new ProductDto(PRODUCT_NAME, DESCRIPTION, PRICE, WEIGHT, COUNTRY);
     }
 
     private void given_product() {
-        product = new Product(1L, PRODUCT_NAME, "Fruit", 3.99, 1.0, "Brazil");
-    }
-
-    private void given_product_list() {
-        int i = 3;
-        while (i > 0) {
-            product = new Product(1L, PRODUCT_NAME, "Fruit " + i, 3.99, 1.0, "Brazil");
-            productList.add(product);
-            i--;
-        }
-
+        product = new Product(1L, PRODUCT_NAME, DESCRIPTION, PRICE, WEIGHT, COUNTRY);
     }
 
     private void when_product_saved() {
@@ -109,7 +120,7 @@ public class ProductServiceShould {
     }
 
     private void when_getting_all_products() {
-        productService.getAll(0, 0);
+        productService.getAll();
     }
 
     private void when_delete_is_called() {
@@ -129,7 +140,7 @@ public class ProductServiceShould {
     }
 
     private void then_get_all_should_have_been_called_once() {
-        verify(productService, times(1)).getAll(0, 0);
+        verify(productService, times(1)).getAll();
     }
 
     private void then_delete_should_have_been_called_once() {
