@@ -27,15 +27,23 @@ Base path: `/venture-cella`
 
 ### Products
 ##### Get All
-This is done sorting by name and leaving as an option, pagination.
+This is done sorting by name.
 ###### Params not required:
 `page: Integer`
 `size: Integer`
 
     /products/page?=#&size?=#
 
+##### Get All by page
+This is done sorting by name and using pagination.
+###### Required params :
+`page: Integer`
+`size: Integer`
+
+    /products/page?=#&size?=#
+
 ##### Get Product by name
-###### Params required:
+###### Required params :
 `name: String`
 
     /products/name/name?=#
