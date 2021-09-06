@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getByName(String name) {
         List<ProductDto> productDtos = new ArrayList<>();
-        productRepository.getByName(name).forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+        productRepository.getByName(name).forEach(product -> productDtos.add(product.toDto()));
 
         return productDtos;
     }
@@ -51,17 +51,16 @@ public class ProductServiceImpl implements ProductService {
         if (productPage.getContent().isEmpty()) throw new EntityNotFoundException();
 
         List<ProductDto> productDtos = new ArrayList<>();
-        productPage.getContent().forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+        productPage.getContent().forEach(product -> productDtos.add(product.toDto()));
 
         return new PaginationResponse(page, productPage.getTotalPages(), productDtos);
 
     }
 
-
     @Override
     public List<ProductDto> getAll() {
         List<ProductDto> productDtos = new ArrayList<>();
-        productRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).forEach(product -> productDtos.add(ProductDto.fromProduct(product)));
+        productRepository.findAll(Sort.by(Sort.Direction.ASC, "name")).forEach(product -> productDtos.add(product.toDto()));
 
         return productDtos;
     }

@@ -1,5 +1,5 @@
 # ![pageres](src/main/resources/VC-logo.png)
-![Days](https://img.shields.io/static/v1?label=Working-Days&message=1&color=blue)
+![Days](https://img.shields.io/static/v1?label=Working-Days&message=2&color=blue)
 ![Status](https://img.shields.io/static/v1?label=Done&message=100%&color=green)
 
 CRUD with Spring.. and something more✨

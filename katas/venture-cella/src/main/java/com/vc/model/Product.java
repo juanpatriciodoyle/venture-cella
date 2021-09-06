@@ -37,7 +37,6 @@ public class Product {
     public Product() {
     }
 
-
     public static Product fromDto(ProductDto productDto) {
         return new Product(
                 productDto.getName(),
@@ -46,6 +45,10 @@ public class Product {
                 productDto.getWeight(),
                 productDto.getCountry()
         );
+    }
+
+    public ProductDto toDto() {
+        return new ProductDto(this.getId(), this.getName(), this.getDescription(), this.getPrice(), this.getWeight(), this.getCountry());
     }
 
     public Long getId() {

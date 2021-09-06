@@ -1,9 +1,5 @@
 package com.vc.model.dto;
 
-import com.vc.model.Product;
-
-import java.util.Optional;
-
 public class ProductDto {
 
     Long id;
@@ -13,11 +9,7 @@ public class ProductDto {
     Double weight;
     String country;
 
-    public ProductDto() {
-    }
-
-    public static ProductDto fromProduct(Product product) {
-        return new ProductDto(product.getId(), product.getName(), product.getDescription(), product.getPrice(), product.getWeight(), product.getCountry());
+    private ProductDto() {
     }
 
     public String getName() {
